@@ -8,7 +8,8 @@ const client = new LambdaClient({
 })
 const command = new InvokeCommand({
   FunctionName: 'steviewonder-get-currently-playing',
-  InvocationType: 'RequestResponse'
+  InvocationType: 'RequestResponse',
+  Payload: 'String'
 })
 
 // app.get("/", (req, res) => res.type('html').send(html));
