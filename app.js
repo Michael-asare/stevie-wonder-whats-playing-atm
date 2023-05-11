@@ -1,18 +1,28 @@
 const express = require("express");
-const AWS = require("aws-sdk")
+const AWS = require("aws-sdk");
+const { LambdaClient, InvokeCommand } = require("@aws-sdk/client-lambda");
 const app = express();
 const port = process.env.PORT || 3001;
-const lambda = new AWS.Lambda({region: 'us-east-1'})
+const client = new LambdaClient({
+  region: 'us-east-1'
+})
+const command = new InvokeCommand({
+  FunctionName: 'steviewonder-get-currently-playing',
+  InvocationType: 'Event'
+})
 
 // app.get("/", (req, res) => res.type('html').send(html));
 app.get("/", async (req, res) => {
-  lambda.invoke((error, data) => {
-    if (error != null || error != undefined) {
-      res.status(400).json(error)
+  try {
+    const response = await client.send(command)
+    if (response.FunctionError) {
+      res.status(400).json(response.FunctionError)
     } else {
-      res.status(200).json(data)
+      res.status(response.StatusCode).json(response.Payload)
     }
-  })
+  } catch (error) {
+    res.status(400).json(error)
+  }
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
