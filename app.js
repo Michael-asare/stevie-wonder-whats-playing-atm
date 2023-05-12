@@ -12,7 +12,7 @@ const command = new InvokeCommand({
   Payload: JSON.stringify('') // here holds the json key value pairing for the request (nothing is needed atm)
 })
 
-app.get("/", async (req, res) => {
+app.get("/current", async (req, res) => {
   try {
     const response = await client.send(command)
     console.log(response)
