@@ -49,7 +49,7 @@ app.get("/current/colors", async (req, res) => {
     const response =  await googleAuthClient.request({
       "url": colorsEndpoint + queryParams,
       "method": "POST",
-      "fetchImplementation": typeof fetch,
+      "fetchImplementation": fetch,
       "headers": {
         "Content-Type": "application/json"
       }
@@ -66,12 +66,12 @@ app.get("/current/colors", async (req, res) => {
       res.status(200).json(jsonResponse)
     } else {
       console.log("Error arrived during song cover -> colors process")
-      res.status(400).json(jsonResponse)
+      res.status(400).json({error: "Error arrived during song cover -> colors process"})
     }
   } catch (error) {
     console.log("Error arrived early")
     console.log(error)
-    res.status(400).json(error)
+    res.status(500).json({error: "An error arrived early"})
   }
 });
 app.listen(port, () => console.log(`Stevie Wonder app listening on port ${port}!`));
