@@ -45,10 +45,11 @@ app.get("/current/colors", async (req, res) => {
     console.log("...done")
     const queryParams = numClusters == undefined ? "" : `?numClusters=${numClusters}`
     console.log(`Attempting to ping ${colorsEndpoint + queryParams}`)
-
+    
     const response =  await googleAuthClient.request({
       "url": colorsEndpoint + queryParams,
       "method": "POST",
+      "fetchImplementation": window.fetch,
       "headers": {
         "Content-Type": "application/json"
       }
@@ -59,6 +60,9 @@ app.get("/current/colors", async (req, res) => {
     //     'Content-Type': 'application/json',
     //   }
     // })
+    console.log("REMOVE THIS LATER~")
+    console.log(response)
+    console.log(Object.keys(response))
     const jsonResponse = await response.json()
     console.log(`Ping successful! Here is the response in json form: ${JSON.stringify(jsonResponse, null, 4)}`)
     if (response.ok) {
