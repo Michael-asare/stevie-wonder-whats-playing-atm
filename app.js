@@ -41,7 +41,7 @@ app.get("/current/colors", async (req, res) => {
       headers: { 'Content-Type': 'application/json'}
     })
     const jsonResponse = await response.json()
-    console.log(`Ping successful! Here is the response in json form: ${jsonResponse}`)
+    console.log(`Ping successful! Here is the response in json form: ${JSON.stringify(jsonResponse)}`)
     if (response.ok) {
       res.status(200).json(jsonResponse.Payload)
     } else {
