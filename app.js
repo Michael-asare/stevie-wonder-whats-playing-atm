@@ -60,10 +60,11 @@ app.get("/current/colors", async (req, res) => {
     //     'Content-Type': 'application/json',
     //   }
     // })
-    const jsonResponse = await response.json()
-    console.log(`Ping successful! Here is the response in json form: ${JSON.stringify(jsonResponse, null, 4)}`)
-    if (response.ok) {
-      res.status(200).json(jsonResponse)
+    // const jsonResponse = await response.json()
+    const responseData = response.data
+    console.log(`Ping successful! Here is the response in json form: ${JSON.stringify(responseData, null, 4)}`)
+    if (response.statusText === 'Ok') {
+      res.status(200).json(responseData)
     } else {
       console.log("Error arrived during song cover -> colors process")
       res.status(400).json({error: "Error arrived during song cover -> colors process"})
