@@ -30,19 +30,23 @@ app.get("/current", async (req, res) => {
 
 const colorsEndpoint = "https://us-east4-stevie-wonder-386422.cloudfunctions.net/song-colors"
 app.get("/current/colors", async (req, res) => {
+  console.log("Got in a request for /current/colors")
+  console.log(req)
   let numClusters = req.query.numClusters;
   try {
-    const queryParams = numClusters == undefined ? "" : `numClusters=${numClusters}`
+    const queryParams = numClusters == undefined ? "" : `?numClusters=${numClusters}`
+    console.log(`Attempting to ping ${colorsEndpoint+queryParams}`)
     const response = await fetch(colorsEndpoint+queryParams, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json'}
     })
-    console.log(response)
+    const jsonResponse = await response.json()
+    console.log(`Ping successful! Here is the response in json form: ${jsonResponse}`)
     if (response.ok) {
-      res.status(200).json(response.body)
+      res.status(200).json(jsonResponse.body)
     } else {
       console.log("Error arrived during song cover -> colors process")
-      res.status(400).json(response.body)
+      res.status(400).json(jsonResponse.body)
     }
   } catch (error) {
     console.log("Error arrived early")
