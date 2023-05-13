@@ -3,7 +3,6 @@ const AWS = require("aws-sdk");
 const { LambdaClient, InvokeCommand } = require("@aws-sdk/client-lambda");
 const app = express();
 const port = process.env.PORT || 3001;
-const fetch = require("node-fetch")
 const client = new LambdaClient({
   region: 'us-east-1'
 })
