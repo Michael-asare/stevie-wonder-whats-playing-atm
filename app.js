@@ -74,8 +74,12 @@ app.get("/current/colors", async (req, res) => {
     console.log("Error arrived early")
     console.log(error)
     if (error instanceof gaxois.GaxiosError) {
+      console.log("A Gaxios error occured")
       if (error.response.data.error !== undefined) {
+        console.log("Found an error message!")
         res.status(400).json({error: error.response.data.error})
+      } else {
+        console.log("Was not able to handle this gaxios error. Falling back to default handling.")
       }
     }
     res.status(500).json({error: "An error arrived early"})
