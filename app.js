@@ -33,6 +33,7 @@ const colorsEndpoint = "https://us-east4-stevie-wonder-386422.cloudfunctions.net
 
 const { GoogleAuth } = require('google-auth-library')
 const googleAuth = new GoogleAuth()
+const gaxois = require('gaxios')
 
 
 app.get("/current/colors", async (req, res) => {
@@ -45,7 +46,6 @@ app.get("/current/colors", async (req, res) => {
     console.log("...done")
     const queryParams = numClusters == undefined ? "" : `?numClusters=${numClusters}`
     console.log(`Attempting to ping ${colorsEndpoint + queryParams}`)
-    
     const response =  await googleAuthClient.request({
       "url": colorsEndpoint + queryParams,
       "method": "POST",
@@ -73,6 +73,11 @@ app.get("/current/colors", async (req, res) => {
   } catch (error) {
     console.log("Error arrived early")
     console.log(error)
+    if (error instanceof gaxois.GaxiosError) {
+      if (error.response.data.error !== undefined) {
+        res.status(400).json({error: error.response.data.error})
+      }
+    }
     res.status(500).json({error: "An error arrived early"})
   }
 });
