@@ -82,7 +82,7 @@ app.get("/current/colors", async (req, res) => {
         console.log("Was not able to handle this gaxios error. Falling back to default handling.")
       }
     }
-    res.status(500).json({error: "An error arrived early"})
+    res.status(500).json({error: "A Server Error Has Occured. If you are a maintainer, please look at the server logs for more information."})
   }
 });
 app.listen(port, () => console.log(`Stevie Wonder app listening on port ${port}!`));
